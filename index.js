@@ -91,9 +91,15 @@ app.post('/auth/vk/callback', async (req, res) => {
 }
 });
 
-// Раздача статики (frontend/public) как и раньше — это правильно!
-app.use(express.static(path.join(__dirname, 'frontend')));
-app.use(express.static(path.join(__dirname, 'public')));
+// Раздача статики из существующих директорий
+['public'].forEach(dir => {
+  const staticPath = path.join(__dirname, dir);
+  if (fs.existsSync(staticPath)) {
+    app.use(express.static(staticPath));
+  } else {
+    console.warn(`Static directory not found: ${staticPath}`);
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`VK ID Auth backend запущен на http://localhost:${PORT}`);
