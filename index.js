@@ -91,8 +91,8 @@ app.post('/auth/vk/callback', async (req, res) => {
 }
 });
 
-// Раздача статики (frontend/public) как и раньше — это правильно!
-app.use(express.static(path.join(__dirname, 'frontend')));
+// Раздача статики
+// Если директории "frontend" нет, оставляем только папку "public"
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.listen(PORT, () => {
